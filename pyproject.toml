@@ -1,5 +1,52 @@
 [project]
 name = "reddit-game-management-app"
 version = "0.1.0"
+description = "Publicise a game on Reddit with as little upkeep as possible."
+readme = "README.md"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "click>=8.5.0",
+    "praw>=8.0.3",
+]
+
+[project.scripts]
+rgm = "reddit_game_manager.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.9.18,<0.10"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "reddit_game_manager"
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.black]
+line-length = 100
+
+[tool.mypy]
+strict = true
+python_version = "3.14"
+
+[[tool.mypy.overrides]]
+module = ["praw.*", "prawcore.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["--strict-markers"]
+
+[dependency-groups]
+dev = [
+    "black>=26.10.1",
+    "mypy>=2.4.1",
+    "pre-commit>=4.7.0",
+    "pytest>=9.2.0",
+    "pytest-cov>=7.1.0",
+    "ruff>=0.17.3",
+]
